@@ -17,5 +17,9 @@ class QuoteStore:
         self.path.write_text(json.dumps(quotes, indent=2), encoding="utf-8")
 
     def list_all(self) -> list[Quote]:
-        quotes = json.loads(self.path.read_text(encoding="utf-8"))
+        try:
+            quotes = json.loads(self.path.read_text(encoding="utf-8"))
+        except FileNotFoundError:
+            return []
+
         return [Quote.from_dict(item) for item in quotes]
