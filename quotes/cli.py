@@ -1,3 +1,4 @@
+import random
 from pathlib import Path
 
 from quotes.models import Quote
@@ -12,12 +13,16 @@ def handle_add(args) -> None:
 
 
 def handle_list(args) -> None:
-    del args
     store = QuoteStore(Path("quotes.json"))
     quotes = store.list_all()
 
     if not quotes:
         print("No quotes yet.")
+        return
+
+    if args.random:
+        quote = random.choice(quotes)
+        print(f'"{quote.text}" — {quote.author}')
         return
 
     for quote in quotes:

@@ -14,6 +14,7 @@ def main(argv: Optional[list[str]] = None) -> int:
     add_parser.set_defaults(func=handle_add)
 
     list_parser = subparsers.add_parser("list")
+    list_parser.add_argument("--random", action="store_true")
     list_parser.set_defaults(func=handle_list)
 
     if argv and argv[0] == "quotes":
