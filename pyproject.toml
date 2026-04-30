@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quotes"
+version = "0.1.0"
+description = "A small CLI for storing and displaying quotes"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = []
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+quotes = "quotes.__main__:main"
+
+[tool.setuptools]
+packages = ["quotes"]
