@@ -25,6 +25,14 @@ def test_list_returns_empty_list_on_new_store(tmp_path):
     assert quotes == []
 
 
+def test_list_all_when_file_missing(tmp_path):
+    store = QuoteStore(tmp_path / "doesnt_exist.json")
+
+    quotes = store.list_all()
+
+    assert quotes == []
+
+
 def test_persistence_across_instances(tmp_path):
     path = tmp_path / "quotes.json"
     store_a = QuoteStore(path)
