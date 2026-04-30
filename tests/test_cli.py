@@ -39,3 +39,39 @@ def test_add_command(tmp_path, monkeypatch):
     data = json.loads(store_path.read_text(encoding="utf-8"))
     assert len(data) == 1
     assert data[0]["text"] == "Hello world"
+
+
+def test_list_random_picks_one_quote(tmp_path, monkeypatch, capsys):
+    path = tmp_path / "quotes.json"
+    path.write_text(
+        json.dumps(
+            [
+                {
+                    "text": "First quote",
+                    "author": "Author One",
+                    "added_at": "2024-01-15T09:30:00",
+                },
+                {
+                    "text": "Second quote",
+                    "author": "Author Two",
+                    "added_at": "2024-01-16T09:30:00",
+                },
+                {
+                    "text": "Third quote",
+                    "author": "Author Three",
+                    "added_at": "2024-01-17T09:30:00",
+                },
+            ]
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr("random.choice", lambda seq: seq[0])
+
+    main(["quotes", "list", "--random"])
+
+    captured = capsys.readouterr()
+
+    assert "First quote" in captured.out
+    assert "Second quote" not in captured.out
+    assert "Third quote" not in captured.out
